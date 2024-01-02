@@ -13,7 +13,7 @@ type CashierProductItemProps = {
 
 export default memo(function CashierProductItem({ product, isActive, quantity, onProductClick, onQuantityChange }: CashierProductItemProps) {
 
-  const handleQuantityChange = (e, quantity) => {
+  const handleQuantityChange = (e: React.MouseEvent<HTMLButtonElement>, quantity: number) => {
     e.stopPropagation()
     onQuantityChange(product.id, quantity)
   }

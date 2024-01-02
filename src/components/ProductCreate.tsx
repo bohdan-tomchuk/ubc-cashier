@@ -23,7 +23,7 @@ export default function ProductCreate() {
     })
   }
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.type === 'number') {
       setFormState({
         ...formState,

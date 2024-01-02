@@ -1,9 +1,8 @@
-import { useAppSelector, useAppDispatch } from '../hooks'
+import { useAppSelector } from '../hooks'
 import ProductItem from './ProductItem'
 import ProductCreate from './ProductCreate'
 import { useEffect, useState } from 'react'
-import { Button, Card } from 'flowbite-react'
-import { FaPlus } from 'react-icons/fa'
+import { Card } from 'flowbite-react'
 import Search from './Search'
 
 interface Product {
@@ -12,15 +11,8 @@ interface Product {
   price: number
 }
 
-const testProduct = {
-  id: 999,
-  name: 'Test Product',
-  price: 100
-}
-
 export default function ProductsList() {
   const products = useAppSelector(state => state.products.list)
-  const dispatch = useAppDispatch()
   const [filteredProducts, setFilteredProducts] = useState([...useAppSelector(state => state.products.list)])
 
   useEffect(() => {

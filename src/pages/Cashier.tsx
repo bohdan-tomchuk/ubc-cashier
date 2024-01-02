@@ -46,10 +46,14 @@ export default function Cashier() {
     setProductsState(newProductsState)
   }
 
+  const handleSearch = () => {
+    console.log('search')
+  }
+
   return (
     <div className="flex justify-between w-full">
       <div className="flex flex-col w-full lg:mr-16">
-        <Search className="max-w-md mb-6"/>
+        <Search onEnter={handleSearch} className="max-w-md mb-6"/>
         <div className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 justify-items-center justify-center gap-6">
           {Object.values(productsState).map((product) => (
             <CashierProductItem 
