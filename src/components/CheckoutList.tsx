@@ -1,9 +1,9 @@
-import { Card, Button, Toast } from 'flowbite-react'
+import { Card, Button } from 'flowbite-react'
 import { useState, useEffect } from 'react'
 import { CashierProduct } from '../types/Product'
 import { useAppDispatch } from '../hooks'
 import { addCheck } from '../store/slices/checkSlice'
-import { HiCheck, HiReceiptTax, HiX } from 'react-icons/hi'
+import { HiReceiptTax, HiX } from 'react-icons/hi'
 import CheckoutProductItem from './CheckoutProductItem'
 
 type CheckoutListProps = {
@@ -20,7 +20,7 @@ const cardTheme = {
 export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
   const activeItems = items.filter((item: CashierProduct) => item.isActive)
   const dispatch = useAppDispatch()
-  const [notifyState, setNotifyState] = useState<boolean>(false)
+  // const [notifyState, setNotifyState] = useState<boolean>(false)
   const [isModal, setIsModal] = useState<boolean>(false)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
@@ -35,8 +35,8 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       products: activeItems.map(({ isActive, ...rest }) => { return rest } )
     }))
-    setNotifyState(true)
-    setTimeout(() => setNotifyState(false), 4000)
+    // setNotifyState(true)
+    // setTimeout(() => setNotifyState(false), 4000)
     onCheckout()
     if (isModal) setIsModalOpen(false)
   }
@@ -67,7 +67,7 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
         <div className="px-6">
           <Button fullSized onClick={handleCheckout}>Підтвердити</Button>
         </div>
-        {notifyState && (
+        {/* {notifyState && (
           <Toast className="fixed bottom-8 right-6">
             <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
               <HiCheck className="h-5 w-5" />
@@ -75,7 +75,7 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
             <span className="ml-3 text-sm font-normal">Розрахунок успішний</span>
             <Toast.Toggle onDismiss={() => setNotifyState(false)} />
           </Toast>
-        )}
+        )} */}
       </Card>
       {isModal && (
         <div onClick={() => setIsModalOpen(false)} className={`fixed top-0 right-0 w-full h-full z-10 bg-black opacity-40 ${isModalOpen ? 'block' : 'hidden'}`}></div>
