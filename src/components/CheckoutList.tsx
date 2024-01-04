@@ -1,28 +1,24 @@
 import { Card, Button, Toast } from 'flowbite-react'
 import { useState, useEffect } from 'react'
-import { Product } from '../types/Product'
+import { CashierProduct } from '../types/Product'
 import { useAppDispatch } from '../hooks'
 import { addCheck } from '../store/slices/checkSlice'
 import { HiCheck, HiReceiptTax, HiX } from 'react-icons/hi'
-
-interface ProductState extends Product {
-  quantity: number,
-  isActive: boolean
-}
+import CheckoutProductItem from './CheckoutProductItem'
 
 type CheckoutListProps = {
-  items: Record<number, ProductState>
+  items: CashierProduct[],
   onCheckout: () => void
 }
 
 const cardTheme = {
   root: {
-    children: 'flex flex-col h-full py-4'
+    children: 'flex flex-col py-4'
   }
 }
 
 export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
-  const activeItems = Object.values(items).filter((item: ProductState) => item.isActive)
+  const activeItems = items.filter((item: CashierProduct) => item.isActive)
   const dispatch = useAppDispatch()
   const [notifyState, setNotifyState] = useState<boolean>(false)
   const [isModal, setIsModal] = useState<boolean>(false)
@@ -36,6 +32,7 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
     dispatch(addCheck({
       id: Date.now(),
       date: new Date().toISOString(),
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       products: activeItems.map(({ isActive, ...rest }) => { return rest } )
     }))
     setNotifyState(true)
@@ -48,18 +45,15 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
 
   return (
     <>
-      <Card className={`flex-col w-full max-w-[400px] lg:h-full fixed m-auto lg:m-0 left-0 right-0 lg:relative z-20 ${isModal ? modalStyleOpen : 'flex'}`} theme={cardTheme}>
+      <Card className={`flex-col w-[90vw] max-w-[400px] max-h-[90vh] fixed m-auto lg:m-0 top-[50%] left-[50%] lg:top-0 lg:left-0 translate-y-[-50%] translate-x-[-50%] lg:translate-x-[0%] lg:translate-y-[0%] lg:relative z-20 ${isModal ? modalStyleOpen : 'flex'}`} theme={cardTheme}>
         <div onClick={() => setIsModalOpen(false)} className="lg:hidden px-4 ml-auto cursor-pointer">
           <HiX className="text-2xl text-white" />
         </div>
-        <ul role="list" className="overflow-y-auto divide-y divide-gray-200 dark:divide-gray-700 px-6">
-          {activeItems?.map((product: ProductState) => {
+        <ul role="list" className="overflow-y-auto divide-y divide-gray-200 dark:divide-gray-700 px-6 ">
+          {activeItems?.map((product: CashierProduct) => {
             return (
-              <li key={product.id} className="py-3 sm:py-4">
-                <div className="flex items-center justify-between">
-                  <p className="text-md text-gray-500 md:text-lg dark:text-gray-400">{product.name} | {product.quantity}x</p>
-                  <span className="text-base font-semibold text-gray-900 dark:text-white">{product.price * product.quantity}₴</span>
-                </div>
+              <li key={product.id}>
+                <CheckoutProductItem product={product} />
               </li>
             )
           })}

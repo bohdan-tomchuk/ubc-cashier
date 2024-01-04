@@ -17,7 +17,6 @@ const mockChecks = [
       { id: 4, name: 'Фільтр', price: 56, quantity: 4 },
       { id: 5, name: 'Бутрик', price: 48, quantity: 5 },
       { id: 6, name: 'Чай', price: 84, quantity: 6 },
-      { id: 7, name: 'Кагор', price: 100, quantity: 7 },
       { id: 8, name: 'Какао', price: 18, quantity: 8 }
     ]
   },
@@ -27,7 +26,6 @@ const mockChecks = [
     products: [
       { id: 1, name: 'Латте', price: 14, quantity: 1 },
       { id: 2, name: 'Еспрессо', price: 10, quantity: 2 },
-      { id: 7, name: 'Кагор', price: 100, quantity: 7 },
       { id: 8, name: 'Какао', price: 18, quantity: 8 }
     ]
   },

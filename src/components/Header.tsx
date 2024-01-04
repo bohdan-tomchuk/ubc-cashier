@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 
 export default function Header() {
   return (
-    <Navbar className="sticky">
-      <Navbar.Brand className="dark:text-white text-xl font-bold">Штундо-каса</Navbar.Brand>
+    <Navbar className="fixed z-10 w-full" border>
+      <Navbar.Brand className="dark:text-white text-xl font-bold">Кав'ярня УБЦ</Navbar.Brand>
       <Navbar.Toggle />
       <Navbar.Collapse>
         <Link to="/" className="cursor-pointer text-white">Огляд</Link>

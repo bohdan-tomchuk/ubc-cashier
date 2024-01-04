@@ -5,8 +5,9 @@ const mockProducts = [
   {"id":4,"name":"Фільтр","price":56},
   {"id":5,"name":"Бутрик","price":48},
   {"id":6,"name":"Чай","price":84},
-  {"id":7,"name":"Кагор","price":100},
-  {"id":8,"name":"Какао","price":18}
+  {"id":8,"name":"Какао","price":18},
+  {"id":9,"name":"Free Латте","price":0},
+  {"id":10,"name":"Free Фільтр","price":0},
 ]
 
 export default mockProducts

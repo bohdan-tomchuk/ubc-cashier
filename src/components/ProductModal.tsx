@@ -1,11 +1,17 @@
 import { Modal, Button, TextInput, Label } from 'flowbite-react'
-import { useState } from 'react'
-import { FaPlus } from 'react-icons/fa'
+import { useEffect, useState } from 'react'
+import { FaPlus, FaEdit } from 'react-icons/fa'
 import { useAppDispatch } from '../hooks'
-import { addProduct } from '../store/slices/productSlice'
+import { addProduct, editProduct } from '../store/slices/productSlice'
 import { Product } from '../types/Product'
 
-export default function ProductCreate() {
+
+interface ProductModalProps {
+  type: 'create' | 'edit',
+  product?: Product
+}
+
+export default function ProductModal({ type, product }: ProductModalProps) {
   const dispatch = useAppDispatch()
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [formState, setFormState] = useState<Product>({
@@ -13,6 +19,12 @@ export default function ProductCreate() {
     name: '',
     price: 0
   })
+
+  useEffect(() => {
+    if (product) {
+      setFormState(product)
+    }
+  }, [product])
 
   const onCloseModal = () => {
     setIsModalOpen(false)
@@ -38,19 +50,30 @@ export default function ProductCreate() {
   }
 
   const handleSubmit = () => {
-    setFormState({
-      ...formState,
-      id: Date.now()
-    })
-    dispatch(addProduct(formState))
-    onCloseModal()
+    if (type === 'create') {
+      setFormState({
+        ...formState,
+        id: Date.now()
+      })
+      dispatch(addProduct(formState))
+      onCloseModal()
+    } else {
+      dispatch(editProduct(formState))
+      setIsModalOpen(false)
+    }
   }
 
   return (
     <>
-      <Button onClick={() => setIsModalOpen(true)} type="button" color="blue">
-        <FaPlus className="text-xl" />
-      </Button>
+      {type === 'create' ? ( 
+          <Button onClick={() => {setIsModalOpen(true)}} className="w-10">
+            <FaPlus className="w-4 h-4" />
+          </Button> 
+        ) : ( 
+          <Button onClick={() => {setIsModalOpen(true)}} className="w-10">
+            <FaEdit className="w-4 h-4" />
+          </Button> 
+        )}
       <Modal show={isModalOpen} size="sm" onClose={onCloseModal} popup dismissible>
         <Modal.Header />
         <Modal.Body>
@@ -81,7 +104,13 @@ export default function ProductCreate() {
               required
             />
           </div>
-          <Button fullSized onClick={handleSubmit}>Створити</Button>
+          <Button fullSized onClick={handleSubmit}>
+            {
+              type === 'create'
+                ? 'Створити'
+                : 'Редагувати'
+            }
+          </Button>
         </Modal.Body>
       </Modal>
     </>
