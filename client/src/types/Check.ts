@@ -5,7 +5,7 @@ interface CheckItem extends Product {
 }
 
 export interface Check {
-    id: number,
+    _id: number,
     date: string,
     products: CheckItem[],
 }

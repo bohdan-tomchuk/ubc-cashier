@@ -1,7 +1,8 @@
 import { Table, Badge } from 'flowbite-react'
-import { useAppSelector } from '../hooks'
-import { useState } from 'react'
+import { useGetChecksQuery } from '../store/services/cashierApi'
+import { useState, useMemo } from 'react'
 import { HiArrowUp, HiArrowDown } from 'react-icons/hi'
+import { Check } from '../types/Check'
 
 interface SortState {
   columnName: string,
@@ -17,28 +18,36 @@ const tableTheme = {
 }
 
 export default function CheckTable() {
-  const [checks, setChecks] = useState(useAppSelector(state => state.checks.list))
+  // const { data: checksData } = useGetChecksQuery({})
+  // const [checks, setChecks] = useState<Check[]>(checksData)
+  const { data: checks = [] as Check[] } = useGetChecksQuery({})
   const [sortedBy, setSortedBy] = useState<SortState>({
     columnName: '',
     direction: ''
   })
   
-  const sortByDate = () => {
+  const sortedChecks = useMemo(() => {
     const checksCopy = [...checks]
     if ((sortedBy.columnName === '' && sortedBy.direction === '') || (sortedBy.columnName === 'date' && sortedBy.direction === 'asc')) {
       checksCopy.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    } else if (sortedBy.columnName === 'date' && sortedBy.direction === 'desc') {
+      checksCopy.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    }
+    return checksCopy
+  }, [checks, sortedBy])
+
+  const handleSort = () => {
+    if ((sortedBy.columnName === '' && sortedBy.direction === '') || (sortedBy.columnName === 'date' && sortedBy.direction === 'asc')) {
       setSortedBy({
         columnName: 'date',
         direction: 'desc'
       })
     } else if (sortedBy.columnName === 'date' && sortedBy.direction === 'desc') {
-      checksCopy.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
       setSortedBy({
         columnName: 'date',
         direction: 'asc'
       })
     }
-    setChecks(checksCopy)
   }
 
   const renderSortingArrow = (columnName: string) => {
@@ -53,7 +62,7 @@ export default function CheckTable() {
   return (
     <Table theme={tableTheme}>
       <Table.Head>
-        <Table.HeadCell onClick={sortByDate} className="cursor-pointer">
+        <Table.HeadCell onClick={handleSort} className="cursor-pointer">
           Дата
           {sortedBy.columnName === 'date' && renderSortingArrow('date')}
         </Table.HeadCell>
@@ -61,8 +70,8 @@ export default function CheckTable() {
         <Table.HeadCell>Товари</Table.HeadCell>
       </Table.Head>
       <Table.Body className="divide-y">
-        {checks.map(check => (
-          <Table.Row key={check.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+        {sortedChecks?.map((check: Check) => (
+          <Table.Row key={check._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
             <Table.Cell className="p-3 md:p-4">
               <div className="flex flex-col justify-center gap-2">
                 <span>{new Date(check.date).toLocaleDateString('uk-UA')}</span>
@@ -70,12 +79,12 @@ export default function CheckTable() {
               </div>
             </Table.Cell>
             <Table.Cell className="p-3 md:p-4 text-center ">
-              <span className="font-bold text-base">{check.products.reduce((acc, product) => acc + product.price, 0)}</span>₴
+              <span className="font-bold text-base">{check?.products.reduce((acc, product) => acc + product.price, 0)}</span>₴
             </Table.Cell>
             <Table.Cell className="px-2 md:p-4">
               <div className="flex flex-wrap max-w-[250px]">
                 {check.products.map(product => (
-                  <Badge key={product.id} className="mb-2 ml-2">{product.quantity}x {product.name}</Badge>
+                  <Badge key={product._id} className="mb-2 ml-2">{product.quantity}x {product.name}</Badge>
                 ))}
               </div>
             </Table.Cell>

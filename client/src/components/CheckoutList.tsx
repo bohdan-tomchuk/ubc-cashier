@@ -1,8 +1,7 @@
 import { Card, Button } from 'flowbite-react'
 import { useState, useEffect } from 'react'
 import { CashierProduct } from '../types/Product'
-import { useAppDispatch } from '../hooks'
-import { addCheck } from '../store/slices/checkSlice'
+import { useCreateCheckMutation } from '../store/services/cashierApi'
 import { HiReceiptTax, HiX } from 'react-icons/hi'
 import CheckoutProductItem from './CheckoutProductItem'
 
@@ -18,8 +17,8 @@ const cardTheme = {
 }
 
 export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
-  const activeItems = items.filter((item: CashierProduct) => item.isActive)
-  const dispatch = useAppDispatch()
+  const activeItems = items?.filter((item: CashierProduct) => item.isActive)
+  const [createCheck] = useCreateCheckMutation()
   // const [notifyState, setNotifyState] = useState<boolean>(false)
   const [isModal, setIsModal] = useState<boolean>(false)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
@@ -29,12 +28,11 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
   }, [])
 
   const handleCheckout = () => {
-    dispatch(addCheck({
-      id: Date.now(),
+    createCheck({
       date: new Date().toISOString(),
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      products: activeItems.map(({ isActive, ...rest }) => { return rest } )
-    }))
+      products: activeItems?.map(({ isActive, ...rest }) => { return rest } )
+    })
     // setNotifyState(true)
     // setTimeout(() => setNotifyState(false), 4000)
     onCheckout()
@@ -52,7 +50,7 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
         <ul role="list" className="overflow-y-auto divide-y divide-gray-200 dark:divide-gray-700 px-6 ">
           {activeItems?.map((product: CashierProduct) => {
             return (
-              <li key={product.id}>
+              <li key={product._id}>
                 <CheckoutProductItem product={product} />
               </li>
             )

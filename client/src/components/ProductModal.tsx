@@ -1,10 +1,8 @@
 import { Modal, Button, TextInput, Label } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { FaPlus, FaEdit } from 'react-icons/fa'
-import { useAppDispatch } from '../hooks'
-import { addProduct, editProduct } from '../store/slices/productSlice'
+import { useEditProductMutation, useCreateProductMutation } from '../store/services/cashierApi'
 import { Product } from '../types/Product'
-
 
 interface ProductModalProps {
   type: 'create' | 'edit',
@@ -12,10 +10,10 @@ interface ProductModalProps {
 }
 
 export default function ProductModal({ type, product }: ProductModalProps) {
-  const dispatch = useAppDispatch()
+  const [createProduct] = useCreateProductMutation()
+  const [editProduct] = useEditProductMutation()
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const [formState, setFormState] = useState<Product>({
-    id: 0,
+  const [formState, setFormState] = useState<Omit<Product, '_id'>>({
     name: '',
     price: 0
   })
@@ -29,7 +27,6 @@ export default function ProductModal({ type, product }: ProductModalProps) {
   const onCloseModal = () => {
     setIsModalOpen(false)
     setFormState({
-      id: 0,
       name: '',
       price: 0
     })
@@ -53,12 +50,11 @@ export default function ProductModal({ type, product }: ProductModalProps) {
     if (type === 'create') {
       setFormState({
         ...formState,
-        id: Date.now()
       })
-      dispatch(addProduct(formState))
+      createProduct(formState)
       onCloseModal()
     } else {
-      dispatch(editProduct(formState))
+      editProduct(formState)
       setIsModalOpen(false)
     }
   }

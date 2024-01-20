@@ -1,12 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
-import productReducer from './slices/productSlice'
-import checkReducer from './slices/checkSlice'
+
+import { cashierApi } from './services/cashierApi'
 
 const store = configureStore({
   reducer: {
-    products: productReducer,
-    checks: checkReducer,
-  }
+    [cashierApi.reducerPath]: cashierApi.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(cashierApi.middleware),
 })
 
 export default store

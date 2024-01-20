@@ -1,5 +1,4 @@
-import { removeProduct } from '../store/slices/productSlice'
-import { useAppDispatch } from '../hooks'
+import { useRemoveProductMutation } from "../store/services/cashierApi"
 import { FaRegTrashAlt } from "react-icons/fa"
 import { Button } from 'flowbite-react'
 import { Product } from '../types/Product'
@@ -9,13 +8,13 @@ import ProductModal from './ProductModal'
 
 type ProductItemProps = Product
 
-export default function ProductItem({ id, name, price }: ProductItemProps) {
-  const dispatch = useAppDispatch()
+export default function ProductItem({ _id, name, price }: ProductItemProps) {
+  const [ removeProduct ] = useRemoveProductMutation()
   const [openModal, setOpenModal] = useState(false)
 
   const handleRemove = () => {
     setOpenModal(false)
-    dispatch(removeProduct(id))
+    removeProduct(_id)
   }
   return (
     <>
@@ -28,7 +27,7 @@ export default function ProductItem({ id, name, price }: ProductItemProps) {
             {price}₴
           </span>
         </div>
-        <ProductModal type="edit" product={{id, name, price}} />
+        <ProductModal type="edit" product={{_id, name, price}} />
         <Button onClick={() => {setOpenModal(true)}} color="failure" className="w-10 ml-4">
           <FaRegTrashAlt className="w-4 h-4" />
         </Button>

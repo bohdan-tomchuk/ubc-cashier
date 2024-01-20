@@ -6,7 +6,7 @@ const useProductState = (currentProduct: CashierProduct) => {
   const { productsState, setProductsState } = useContext(CashierContext)
 
   const handleQuantityChange = (quantity: number) => {
-    const currentProductIndex = productsState.findIndex(item => item.id === currentProduct.id)
+    const currentProductIndex = productsState.findIndex(item => item._id === currentProduct._id)
     let updatedProduct
 
     if (quantity === 0) {
@@ -24,7 +24,7 @@ const useProductState = (currentProduct: CashierProduct) => {
   }
 
   const handleProductClick = () => {
-    const currentProductIndex = productsState.findIndex(item => item.id === currentProduct.id)
+    const currentProductIndex = productsState.findIndex(item => item._id === currentProduct._id)
     const updatedProduct = {
       ...productsState[currentProductIndex],
       isActive: !productsState[currentProductIndex].isActive,
