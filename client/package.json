@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://bohdan-tomchuk.github.io/ubc-cashier",
+  "homepage": "https://ubc-cashier-fe.onrender.com",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
