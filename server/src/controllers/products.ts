@@ -17,7 +17,7 @@ export const createNewProduct = async (req: express.Request, res: express.Respon
   try {
     const { name, price } = req.body
 
-    if (!name || !price) {
+    if (!name || price === undefined) {
       return res.sendStatus(400)
     }
 
@@ -49,7 +49,7 @@ export const updateProduct = async (req: express.Request, res: express.Response)
     const { id } = req.params
     const { name, price } = req.body
 
-    if (!name || !price) {
+    if (!name || price === undefined) {
       return res.sendStatus(400)
     }
 
