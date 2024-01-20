@@ -3,7 +3,7 @@ import { Product } from '../../types/Product'
 
 export const cashierApi = createApi({
   reducerPath: 'cashierApi',
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.API_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL }),
   tagTypes: ['Products', 'Checks'],
   endpoints: (builder) => ({
     getProducts: builder.query({
