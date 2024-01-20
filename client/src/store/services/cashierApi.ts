@@ -3,7 +3,7 @@ import { Product } from '../../types/Product'
 
 export const cashierApi = createApi({
   reducerPath: 'cashierApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api/v1' }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.API_URL }),
   tagTypes: ['Products', 'Checks'],
   endpoints: (builder) => ({
     getProducts: builder.query({

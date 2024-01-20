@@ -21,11 +21,10 @@ app.use(bodyParser.json())
 const server = http.createServer(app)
 
 server.listen(8080, () => {
-  console.log('Server is running on port http://localhost:8080/')
+  console.log('Server is running')
 })
 
-const MONGO_URL = 'mongodb+srv://test:test1234@cluster0.fl9j3eg.mongodb.net/Main?retryWrites=true&w=majority'
-
+const MONGO_URL = process.env.MONGO_URL
 mongoose.Promise = Promise
 mongoose.connect(MONGO_URL)
 mongoose.connection.on('error', (err: any) => console.log(err))
