@@ -43,7 +43,7 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
 
   return (
     <>
-      <Card className={`flex-col w-[90vw] max-w-[400px] max-h-[90vh] fixed m-auto lg:m-0 top-[50%] left-[50%] lg:top-0 lg:left-0 translate-y-[-50%] translate-x-[-50%] lg:translate-x-[0%] lg:translate-y-[0%] lg:relative z-20 ${isModal ? modalStyleOpen : 'flex'}`} theme={cardTheme}>
+      <Card className={`flex-col w-[90vw] max-w-[400px] max-h-[90vh] fixed m-auto lg:m-0 top-[50%] left-[50%] lg:top-0 lg:left-0 translate-y-[-50%] translate-x-[-50%] lg:translate-x-[0%] lg:translate-y-[0%] lg:relative z-20 lg:z-0 ${isModal ? modalStyleOpen : 'flex'}`} theme={cardTheme}>
         <div onClick={() => setIsModalOpen(false)} className="lg:hidden px-4 ml-auto cursor-pointer">
           <HiX className="text-2xl text-white" />
         </div>

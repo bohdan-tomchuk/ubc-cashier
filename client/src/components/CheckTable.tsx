@@ -12,9 +12,9 @@ interface SortState {
 const tableTheme = {
   head: {
     cell: {
-      base: 'group-first/head:first:rounded-tl-lg group-first/head:last:rounded-tr-lg bg-gray-50 dark:bg-gray-700 px-2 py-3 text-center'
+      base: 'group-first/head:first:rounded-tl-lg group-first/head:last:rounded-tr-lg bg-gray-100 dark:bg-gray-700 px-2 py-3 text-center'
     }
-  }
+  },
 }
 
 export default function CheckTable() {

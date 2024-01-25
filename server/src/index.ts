@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 import compression from 'compression'
 import cors from 'cors'
 import mongoose from 'mongoose'
+import 'dotenv/config'
 
 import router from './router'
 
@@ -25,6 +26,7 @@ server.listen(8080, () => {
 })
 
 const MONGO_URL = process.env.MONGO_URL
+console.log(MONGO_URL)
 mongoose.Promise = Promise
 mongoose.connect(MONGO_URL)
 mongoose.connection.on('error', (err: any) => console.log(err))

@@ -7,9 +7,9 @@ export default function Header() {
       <Navbar.Brand className="dark:text-white text-xl font-bold">Кав'ярня УБЦ</Navbar.Brand>
       <Navbar.Toggle />
       <Navbar.Collapse>
-        <Link to="/" className="cursor-pointer text-white">Огляд</Link>
-        <Link to="/products" className="cursor-pointer text-white">Товари</Link>
-        <Link to="/cashier" className="cursor-pointer text-white">Каса</Link>
+        <Link to="/" className="cursor-pointer dark:text-white">Огляд</Link>
+        <Link to="/products" className="cursor-pointer dark:text-white">Товари</Link>
+        <Link to="/cashier" className="cursor-pointer dark:text-white">Каса</Link>
       </Navbar.Collapse>
     </Navbar>
   )
