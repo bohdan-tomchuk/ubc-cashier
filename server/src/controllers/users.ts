@@ -1,49 +1,40 @@
 import express from 'express'
 
-import { getUsers, deleteUserById, getUserById } from '../models/users'
+import { UserModel } from '../models/users'
+import { createToken } from '../helpers/token'
 
-export const getAllUsers = async (req: express.Request, res: express.Response) => {
+// signup user
+export const signup = async (req: express.Request, res: express.Response) => {
+  const {email, password} = req.body
+
   try {
-    const users = await getUsers()
+    const user = await UserModel.signup(email, password)
 
-    return res.status(200).json(users).end()
-  } catch (err) {
-    console.log(err)
-    return res.sendStatus(400)
+    // create token
+    const token = createToken(user._id)
+
+    res.status(200).json({email, token})
+  } catch (error) {
+    res.status(400).json({error: error.message})
   }
 }
 
-export const deleteUser = async (req: express.Request, res: express.Response) => {
+export const login = async (req: express.Request, res: express.Response) => {
+  const {email, password} = req.body
+
   try {
-    const { id } = req.params
+    const user = await UserModel.login(email, password)
 
-    const deletedUser = await deleteUserById(id)
+    // create token
+    const token = createToken(user._id)
 
-    return res.json(deletedUser)
-  } catch (err) {
-    console.log(err)
-    return res.sendStatus(400)
+    res.status(200).cookie('token', token, {httpOnly: true}).json({email})
+  } catch (error) {
+    res.status(400).json({error: error.message})
   }
 }
 
-export const updateUser = async (req: express.Request, res: express.Response) => {
-  try {
-    const { id } = req.params
-    const { username } = req.body
-
-    if (!username) {
-      return res.sendStatus(400)
-    }
-
-    const user = await getUserById(id)
-
-    user.username = username
-
-    await user.save()
-
-    return res.status(200).json(user).end()
-  } catch (err) {
-    console.log(err)
-    return res.sendStatus(400)
-  }
+export const logout = async (req: express.Request, res: express.Response) => {
+  res.clearCookie('token')
+  res.status(200).json({ message: 'User logout' })
 }

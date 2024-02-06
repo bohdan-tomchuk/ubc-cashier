@@ -1,11 +1,16 @@
-import { createHashRouter } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import { Dashboard, Login, Cashier, Products } from './pages'
 import RootLayout from './layouts/RootLayout'
+import ProtectedRoute from './components/ProtectedRoute'
 
-export const router = createHashRouter([
+export const router = createBrowserRouter([
   {
     path: '/',
-    element: <RootLayout />,
+    element: (
+      <ProtectedRoute>
+        <RootLayout />
+      </ProtectedRoute>
+    ),
     children: [
       { index: true, element: <Dashboard /> },
       { path: 'cashier', element: <Cashier /> },

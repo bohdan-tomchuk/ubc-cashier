@@ -1,7 +1,7 @@
 import { CashierProduct } from '../types/Product'
 import { memo } from 'react'
 import Quantity from './Quantity'
-import useProductState from '../hooks/ProductState'
+import useProductState from '../hooks/useProductState'
 
 type CashierProductItemProps = {
   product: CashierProduct,

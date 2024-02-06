@@ -1,21 +1,67 @@
-import mongoose from 'mongoose'
+import { Model, Schema, model } from 'mongoose'
+import bcrypt from 'bcryptjs'
+import isEmail from 'validator/lib/isEmail'
+import isStrongPassword from 'validator/lib/isStrongPassword'
 
-const UserSchema = new mongoose.Schema({
-  username: { type: String, required: true },
-  email: { type: String, required: true },
-  authentication: {
-    password: { type: String, required: true, select: false },
-    salt: { type: String, select: false },
-    sessionToken: { type: String, select: false }
+const UserSchema = new Schema(
+  {
+    email: { 
+      type: String,
+      required: true,
+      unique: true
+    },
+    password: { 
+      type: String,
+      required: true
+    }
+  },
+  {
+    statics: {
+      signup: async function(email, password) {
+        if (!email || !password) {
+          throw Error('All fields must be filled')
+        }
+        if (!isEmail(email)) {
+          throw Error('Email is not valid')
+        }
+        if (!isStrongPassword(password)) {
+          throw Error('Password not strong enough')
+        }
+
+        const exists = await this.findOne({ email })
+      
+        if (exists) {
+          throw Error('Email already in use')
+        }
+      
+        const salt = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(password, salt)
+      
+        const user = await this.create({ email, password: hash })
+      
+        return user
+      },
+      login: async function(email, password) {
+        if (!email || !password) {
+          throw Error('All fields must be filled')
+        }
+
+        const user = await this.findOne({ email })
+        console.log(user)
+
+        if (!user) {
+          throw Error('User don`t exists or wrong email')
+        }
+
+        const match = await bcrypt.compare(password, user.password)
+        if (!match) {
+          throw Error('Incorrect password')
+        }
+
+        return user
+      }
+    }
   }
-})
+)
 
-export const UserModel = mongoose.model('User', UserSchema)
-
-export const getUsers = () => UserModel.find()
-export const getUserByEmail = (email: string) => UserModel.findOne({ email })
-export const getUserBySessionToken = (sessionToken: string) => UserModel.findOne({ 'authentication.sessionToken': sessionToken })
-export const getUserById = (id: string) => UserModel.findById(id)
-export const createUser = (values: Record<string, any>) => new UserModel(values).save(values).then((user: any) => user.toObject())
-export const deleteUserById = (id: string) => UserModel.findByIdAndDelete(id)
-export const updateUserById = (id: string, values: Record<string, any>) => UserModel.findByIdAndUpdate(id, values)
+export const UserModel = model('User', UserSchema)
