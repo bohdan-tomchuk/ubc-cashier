@@ -80,7 +80,7 @@ export default function ProductModal({ type, product }: ProductModalProps) {
             <TextInput
               id="name"
               name="name"
-              placeholder="каКАо какаО"
+              placeholder="Назва товару"
               value={formState.name}
               onChange={handleInputChange}
               required

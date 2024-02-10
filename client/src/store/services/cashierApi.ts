@@ -1,10 +1,8 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { baseApi } from './baseApi'
 import { Product } from '../../types/Product'
 
-export const cashierApi = createApi({
-  reducerPath: 'cashierApi',
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL }),
-  tagTypes: ['Products', 'Checks'],
+
+export const cashierApi = baseApi.enhanceEndpoints({ addTagTypes: ['Products', 'Checks'] }).injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => '/products',

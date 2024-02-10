@@ -9,14 +9,14 @@ interface QuantityProps {
 
 const defaultStyle = {
   base: 'flex items-center justify-between w-full max-w-40',
-  text: 'text-white text-lg',
+  text: 'text-black dark:text-white text-lg',
   button: 'w-10',
   icon: 'w-4 h-4'
 }
 
 const smallStyle = {
   base: 'flex items-center justify-between w-full max-w-28',
-  text: 'text-white text-sm',
+  text: 'text-black dark:text-white text-sm',
   button: 'w-7 h-7',
   icon: 'w-3 h-3'
 }

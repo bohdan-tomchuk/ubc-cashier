@@ -1,7 +1,7 @@
 import { CashierProduct } from '../types/Product'
 import Quantity from './Quantity'
 import { memo } from 'react'
-import useProductState from '../hooks/ProductState'
+import useProductState from '../hooks/useProductState'
 
 export default memo(function CheckoutProductItem({ product }: { product: CashierProduct }) {
   const { handleQuantityChange } = useProductState(product)

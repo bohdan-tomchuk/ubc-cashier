@@ -12,12 +12,18 @@ import router from './router'
 const app = express()
 
 app.use(cors({
-  credentials: true
+  credentials: true,
+  origin: 'http://localhost:3000'
 }))
 
 app.use(compression())
 app.use(cookieParser())
 app.use(bodyParser.json())
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  }),
+);
 
 const server = http.createServer(app)
 
@@ -26,7 +32,6 @@ server.listen(8080, () => {
 })
 
 const MONGO_URL = process.env.MONGO_URL
-console.log(MONGO_URL)
 mongoose.Promise = Promise
 mongoose.connect(MONGO_URL)
 mongoose.connection.on('error', (err: any) => console.log(err))
