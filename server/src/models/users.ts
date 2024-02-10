@@ -13,7 +13,8 @@ const UserSchema = new Schema(
     password: { 
       type: String,
       required: true
-    }
+    },
+    refreshToken: [String]
   },
   {
     statics: {
@@ -47,7 +48,6 @@ const UserSchema = new Schema(
         }
 
         const user = await this.findOne({ email })
-        console.log(user)
 
         if (!user) {
           throw Error('User don`t exists or wrong email')

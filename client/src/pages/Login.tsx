@@ -4,18 +4,18 @@ import { useAppSelector } from '../store'
 import { useEffect } from 'react'
 
 export default function Login() {
-  const user = useAppSelector(state => state.user.user)
+  const token = useAppSelector(state => state.user.token)
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (user) {
+    if (token) {
       navigate('/')
     }
   })
 
   return (
-    <>
+    <div className="h-screen flex justify-center items-center">
       <LoginForm />
-    </>
+    </div>
   )
 }

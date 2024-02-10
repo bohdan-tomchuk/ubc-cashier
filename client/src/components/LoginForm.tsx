@@ -1,14 +1,17 @@
 import { Card, TextInput, Label, Button } from 'flowbite-react'
 import { useState } from 'react'
-import { useLogin } from '../hooks/useLogin'
+import { useLoginMutation } from '../store/services/authApi'
+import { setCredentials } from '../store/slices/userSlice'
 import { useNavigate } from 'react-router-dom'
+import { useAppDispatch } from '../store'
 
 export default function LoginForm() {
   const [formState, setFormState] = useState({
     email: '',
     password: ''
   })
-  const { login, isLoading } = useLogin()
+  const dispatch = useAppDispatch()
+  const [ login, { isLoading } ] = useLoginMutation()
   const navigate = useNavigate()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,12 +22,19 @@ export default function LoginForm() {
   }
 
   const handleSubmit = async () => {
-    await login(formState.email, formState.password)
+    const response = await login({
+      email: formState.email,
+      password: formState.password
+    })
+    if ('data' in response) {
+      dispatch(setCredentials(response.data))
+      localStorage.setItem('user', JSON.stringify(response.data))
+    }
     navigate('/')
   }
 
   return (
-    <Card className="max-w-[380px] w-[80%]">
+    <Card className="max-w-[380px] w-[90%]">
       <div className="mb-4">
         <div className="mb-2 block">
           <Label htmlFor="email" value="Email" />

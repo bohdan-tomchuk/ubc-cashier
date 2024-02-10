@@ -2,17 +2,24 @@ import 'dotenv/config'
 import jwt from 'jsonwebtoken'
 import { Types } from 'mongoose'
 
-function timeUntilMidnight() {
+export function timeUntilMidnight() {
   const now = new Date()
   const midnight = new Date(now)
   midnight.setHours(24, 0, 0, 0)
 
-  const timeDifference = midnight.getTime() - now.getTime()
-  return Math.floor(timeDifference / 1000)
+  return midnight.getTime() - now.getTime()
 }
 
-export const createToken = (id: Types.ObjectId) =>  {
-  return jwt.sign({ id }, process.env.SECRET_KEY, {
-    expiresIn: Math.floor(Date.now() / 1000) + timeUntilMidnight()
+
+export const createAccessToken = (id: Types.ObjectId) =>  {
+  return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: '10s'
+
+  })
+}
+
+export const createRefreshToken = (id: Types.ObjectId) =>  {
+  return jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
+    expiresIn: timeUntilMidnight()
   })
 }

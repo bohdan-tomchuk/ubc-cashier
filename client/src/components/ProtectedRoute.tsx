@@ -1,19 +1,14 @@
-import { PropsWithChildren, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, Navigate } from 'react-router-dom'
+import { PropsWithChildren } from 'react'
+import { useAppSelector } from '../store/index'
 
-import { useAuthContext } from '../hooks/useAuthContext'
+export default function ProtectedRoute({ children }: PropsWithChildren) {
+  const token = useAppSelector(state => state.user.token)
+  const location = useLocation()
 
-type ProtectedRouteProps = PropsWithChildren
-
-export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { state } = useAuthContext()
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (state.user === null) {
-      navigate('/login', { replace: true })
-    }
-  }, [navigate, state.user])
-
-  return children
+  return (
+    token
+      ? children
+      : <Navigate to='/login' state={{ from: location }} replace />
+  )
 }

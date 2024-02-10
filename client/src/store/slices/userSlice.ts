@@ -4,17 +4,20 @@ import { IUser } from '../../types/User'
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    user: null as IUser | null
-  },
+    email: JSON.parse(localStorage.getItem('user') as string)?.email,
+    token: JSON.parse(localStorage.getItem('user') as string)?.token
+  } as IUser,
   reducers: {
-    login(state, action: PayloadAction<IUser>) {
-      state.user = action.payload
+    setCredentials(state, action: PayloadAction<IUser>) {
+      state.email = action.payload.email
+      state.token = action.payload.token
     },
     logout(state) {
-      state.user = null
+      state.email = null
+      state.token = null
     }
   }
 })
 
-export const { login, logout } = userSlice.actions
+export const { setCredentials, logout } = userSlice.actions
 export default userSlice.reducer

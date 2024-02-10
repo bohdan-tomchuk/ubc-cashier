@@ -1,18 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux'
 
-import { cashierApi } from './services/cashierApi'
-import { authApi } from './services/authApi'
+import { baseApi } from './services/baseApi'
 import userReducer from './slices/userSlice'
 
 const store = configureStore({
   reducer: {
-    [cashierApi.reducerPath]: cashierApi.reducer,
-    [authApi.reducerPath]: authApi.reducer,
+    [baseApi.reducerPath]: baseApi.reducer,
     user: userReducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat([cashierApi.middleware, authApi.middleware])
+    getDefaultMiddleware().concat(baseApi.middleware),
+  devTools: true
 })
 
 export default store
