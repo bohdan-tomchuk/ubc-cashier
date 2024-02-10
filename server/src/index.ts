@@ -11,9 +11,17 @@ import router from './router'
 
 const app = express()
 
+const whitelist = ['http://localhost:3000', 'https://ubc-cashier-fe.onrender.com']
+
 app.use(cors({
   credentials: true,
-  origin: 'http://localhost:3000'
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
 }))
 
 app.use(compression())
