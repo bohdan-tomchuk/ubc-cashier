@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken'
 
 import { UserModel } from '../models/users'
 import { createAccessToken, createRefreshToken, timeUntilMidnight } from '../helpers/token'
-import { rearg } from 'lodash'
 
 // signup user
 export const signup = async (req: express.Request, res: express.Response) => {
@@ -19,7 +18,7 @@ export const signup = async (req: express.Request, res: express.Response) => {
 
     res.cookie('jwt', refreshToken, {
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite: 'strict',
       secure: true,
       maxAge: timeUntilMidnight()
     })
@@ -53,7 +52,7 @@ export const login = async (req: express.Request, res: express.Response) => {
         newRefreshTokenArray = []
       }
 
-      res.clearCookie('jwt', { httpOnly: true, sameSite: 'lax', secure: true })
+      res.clearCookie('jwt', { httpOnly: true, sameSite: 'strict', secure: true })
     }
 
     user.refreshToken = [ ...newRefreshTokenArray, newRefreshToken ]
@@ -61,7 +60,7 @@ export const login = async (req: express.Request, res: express.Response) => {
 
     res.cookie('jwt', newRefreshToken, {
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite: 'strict',
       secure: true,
       maxAge: timeUntilMidnight()
     })
@@ -76,7 +75,7 @@ export const refresh = async (req: express.Request, res: express.Response) => {
   console.log('refresh', cookies.jwt)
   if (!cookies?.jwt) return res.sendStatus(401)
   const refreshToken = cookies.jwt
-  res.clearCookie('jwt', { httpOnly: true, sameSite: 'lax', secure: true })
+  res.clearCookie('jwt', { httpOnly: true, sameSite: 'strict', secure: true })
 
   const foundUser = await UserModel.findOne({ refreshToken }).exec()
   if (!foundUser) {
@@ -114,7 +113,7 @@ export const refresh = async (req: express.Request, res: express.Response) => {
       await foundUser.save()
 
       // Creates Secure Cookie with refresh token
-      res.cookie('jwt', newRefreshToken, { httpOnly: true, secure: true, sameSite: 'lax', maxAge: timeUntilMidnight() })
+      res.cookie('jwt', newRefreshToken, { httpOnly: true, secure: true, sameSite: 'strict', maxAge: timeUntilMidnight() })
 
       res.json({ email: foundUser.email, token: accessToken })
     }
@@ -131,7 +130,7 @@ export const logout = async (req: express.Request, res: express.Response) => {
   // Is refreshToken in db?
   const foundUser = await UserModel.findOne({ refreshToken }).exec();
   if (!foundUser) {
-      res.clearCookie('jwt', { httpOnly: true, sameSite: 'lax', secure: true });
+      res.clearCookie('jwt', { httpOnly: true, sameSite: 'strict', secure: true });
       return res.sendStatus(204);
   }
 
@@ -140,6 +139,6 @@ export const logout = async (req: express.Request, res: express.Response) => {
   const result = await foundUser.save();
   console.log(result);
 
-  res.clearCookie('jwt', { httpOnly: true, sameSite: 'lax', secure: true });
+  res.clearCookie('jwt', { httpOnly: true, sameSite: 'strict', secure: true });
   res.sendStatus(204);
 }
