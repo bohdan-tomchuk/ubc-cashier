@@ -12,7 +12,8 @@ import router from './router'
 const app = express()
 
 app.use(cors({
-  credentials: true
+  credentials: true,
+  origin: ['http://localhost:3000', 'https://ubc-cashier-fe.onrender.com']
 }))
 
 app.use(compression())
