@@ -136,7 +136,7 @@ export const logout = async (req: express.Request, res: express.Response) => {
   }
 
   // Delete refreshToken in db
-  foundUser.refreshToken = foundUser.refreshToken.filter(rt => rt !== refreshToken);;
+  foundUser.refreshToken = foundUser.refreshToken.filter(rt => rt !== refreshToken);
   const result = await foundUser.save();
   console.log(result);
 
