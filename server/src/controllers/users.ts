@@ -19,7 +19,7 @@ export const signup = async (req: express.Request, res: express.Response) => {
     res.cookie('jwt', refreshToken, {
       httpOnly: true,
       domain: process.env.DOMAIN,
-      sameSite: 'strict',
+      sameSite: 'lax',
       secure: true,
       maxAge: timeUntilMidnight()
     })
@@ -53,7 +53,7 @@ export const login = async (req: express.Request, res: express.Response) => {
         newRefreshTokenArray = []
       }
 
-      res.clearCookie('jwt', { httpOnly: true, domain: process.env.DOMAIN, sameSite: 'strict', secure: true })
+      res.clearCookie('jwt', { httpOnly: true, domain: process.env.DOMAIN, sameSite: 'lax', secure: true })
     }
 
     user.refreshToken = [ ...newRefreshTokenArray, newRefreshToken ]
@@ -62,7 +62,7 @@ export const login = async (req: express.Request, res: express.Response) => {
     res.cookie('jwt', newRefreshToken, {
       httpOnly: true,
       domain: process.env.DOMAIN,
-      sameSite: 'strict',
+      sameSite: 'lax',
       secure: true,
       maxAge: timeUntilMidnight()
     })
@@ -74,10 +74,9 @@ export const login = async (req: express.Request, res: express.Response) => {
 
 export const refresh = async (req: express.Request, res: express.Response) => {
   const cookies = req.cookies
-  console.log('refresh', cookies.jwt)
   if (!cookies?.jwt) return res.sendStatus(401)
   const refreshToken = cookies.jwt
-  res.clearCookie('jwt', { httpOnly: true, domain: process.env.DOMAIN, sameSite: 'strict', secure: true })
+  res.clearCookie('jwt', { httpOnly: true, domain: process.env.DOMAIN, sameSite: 'lax', secure: true })
 
   const foundUser = await UserModel.findOne({ refreshToken }).exec()
   if (!foundUser) {
@@ -115,7 +114,7 @@ export const refresh = async (req: express.Request, res: express.Response) => {
       await foundUser.save()
 
       // Creates Secure Cookie with refresh token
-      res.cookie('jwt', newRefreshToken, { httpOnly: true, secure: true, domain: process.env.DOMAIN, sameSite: 'strict', maxAge: timeUntilMidnight() })
+      res.cookie('jwt', newRefreshToken, { httpOnly: true, secure: true, domain: process.env.DOMAIN, sameSite: 'lax', maxAge: timeUntilMidnight() })
 
       res.json({ email: foundUser.email, token: accessToken })
     }
@@ -132,7 +131,7 @@ export const logout = async (req: express.Request, res: express.Response) => {
   // Is refreshToken in db?
   const foundUser = await UserModel.findOne({ refreshToken }).exec();
   if (!foundUser) {
-      res.clearCookie('jwt', { httpOnly: true, domain: process.env.DOMAIN, sameSite: 'strict', secure: true });
+      res.clearCookie('jwt', { httpOnly: true, domain: process.env.DOMAIN, sameSite: 'lax', secure: true });
       return res.sendStatus(204);
   }
 
@@ -141,6 +140,6 @@ export const logout = async (req: express.Request, res: express.Response) => {
   const result = await foundUser.save();
   console.log(result);
 
-  res.clearCookie('jwt', { httpOnly: true, domain: process.env.DOMAIN, sameSite: 'strict', secure: true });
+  res.clearCookie('jwt', { httpOnly: true, domain: process.env.DOMAIN, sameSite: 'lax', secure: true });
   res.sendStatus(204);
 }

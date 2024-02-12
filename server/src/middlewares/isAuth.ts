@@ -14,12 +14,12 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   const token = (authHeader as string).split(' ')[1]
 
   try {
-    const { id } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET) as { id: string }
+      const { id } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET) as { id: string }
 
     // @ts-ignore
     req.user = await UserModel.findOne({ _id: id }).select('_id email')
     next()
   } catch (error) {
-    res.status(401).json({error: 'Request is not authorized'})
+    res.status(403).json({error: 'Request is not authorized'})
   }
 }
