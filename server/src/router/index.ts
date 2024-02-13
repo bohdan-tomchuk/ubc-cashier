@@ -7,7 +7,7 @@ import checks from './checks'
 const router = express.Router()
 
 export default (): express.Router => {
-  users(router)
+  // users(router)
   products(router)
   checks(router)
   
