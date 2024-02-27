@@ -1,6 +1,6 @@
 import { Product } from "./Product"
 
-interface CheckItem extends Product {
+export interface CheckItem extends Product {
     quantity: number,
 }
 

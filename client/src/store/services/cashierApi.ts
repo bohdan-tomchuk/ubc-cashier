@@ -37,7 +37,19 @@ export const cashierApi = baseApi.enhanceEndpoints({ addTagTypes: ['Products', '
       invalidatesTags: ['Products'],
     }),
     getChecks: builder.query({
-      query: () => '/checks',
+      query: ({ 
+        page = 1, 
+        itemsPerPage = 50, 
+        date = ['', ''] 
+      }: { 
+        page: number, 
+        itemsPerPage: number, 
+        date: string[]
+      }) => ({
+        url: '/checks/',
+        method: 'GET',
+        params: { page, limit: itemsPerPage, date }
+      }),
       providesTags: ['Checks'],
     }),
     createCheck: builder.mutation({

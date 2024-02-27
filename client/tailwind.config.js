@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 /* eslint-disable */
+
 export default {
   content: [
     './index.html',
@@ -12,6 +13,6 @@ export default {
   plugins: [
     require('flowbite/plugin')
   ],
-  darkMode: 'media',
+  darkMode: 'media'
 }
 

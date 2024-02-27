@@ -1,12 +1,27 @@
 import express from 'express'
 
-import { getChecks, createCheck, deleteCheckById } from '../models/checks'
+import { getChecks, createCheck, deleteCheckById, getChecksCount } from '../models/checks'
 
-export const getAllChecks = async (req: express.Request, res: express.Response) => {
+type ReqDictionary = {}
+type ReqBody = {}
+type ReqQuery = { page?: string, limit?: string, date: string}
+type ResBody = {}
+
+type RequestHandler = express.Request<ReqDictionary, ResBody, ReqBody, ReqQuery>
+
+export const getAllChecks = async (req: RequestHandler, res: express.Response) => {
+  const { page, limit, date } = req.query
+  const parsedDate = date.split(',')
+
   try {
-    const checks = await getChecks()
+    const checks = await getChecks({ page: +page, limit: +limit, date: parsedDate })
+    const checksCount = await getChecksCount({ date: parsedDate })
 
-    return res.status(200).json(checks).end()
+    return res.status(200).json({
+      results: checks,
+      page,
+      count: checksCount
+    }).end()
   } catch (err) {
     console.log(err)
     return res.sendStatus(400)
