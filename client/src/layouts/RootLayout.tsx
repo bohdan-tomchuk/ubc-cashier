@@ -1,15 +1,14 @@
 import { Outlet } from 'react-router-dom'
-import Header from '../components/Header'
+import { Layout } from 'antd'
+import MainHeader from '../components/MainHeader'
 
 export default function RootLayout() {
   return (
-    <>
-      <Header />
-      <main className="flex flex-col items-center bg-gray-200 dark:bg-gray-900 mx-auto">
-        <div className="w-full max-w-screen-xl overflow-y-auto h-[100vh] px-4 pt-[80px] pb-[20px] flex flex-col items-center">
-          <Outlet />
-        </div>
+    <Layout>
+      <MainHeader/>
+      <main className='py-4 px-4 md:px-8 flex justify-center'>
+        <Outlet />
       </main>
-    </>
+    </Layout>
   )
 }

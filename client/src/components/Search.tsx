@@ -1,4 +1,4 @@
-import { TextInput } from "flowbite-react"
+import { Input } from "antd"
 import { FaSearch } from "react-icons/fa"
 import { useState } from "react"
 
@@ -12,14 +12,15 @@ export default function Search({ onEnter, className }: SearchProps) {
 
   return (
     <div className={className}>
-      <TextInput 
+      <Input 
         placeholder="Пошук" 
-        icon={FaSearch}
+        prefix={<FaSearch/>}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === 'Enter') onEnter(value)
         }}
+        size="large"
       />
     </div>
   )

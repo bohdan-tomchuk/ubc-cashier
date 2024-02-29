@@ -1,6 +1,6 @@
 import { useRemoveProductMutation } from "../store/services/cashierApi"
 import { FaRegTrashAlt } from "react-icons/fa"
-import { Button } from 'flowbite-react'
+import { Button } from 'antd'
 import { Product } from '../types/Product'
 import { useState } from 'react'
 import ConfirmDialog from './ConfirmDialog'
@@ -28,9 +28,14 @@ export default function ProductItem({ _id, name, price }: ProductItemProps) {
           </span>
         </div>
         <ProductModal type="edit" product={{_id, name, price}} />
-        <Button onClick={() => {setOpenModal(true)}} color="failure" className="w-10 ml-4">
-          <FaRegTrashAlt className="w-4 h-4" />
-        </Button>
+        <Button 
+          onClick={() => {setOpenModal(true)}} 
+          type="primary"
+          danger
+          size="large"
+          className='ml-3 flex justify-center items-center'
+          icon={<FaRegTrashAlt className="w-4 h-4" />}
+        />
       </div>
       <ConfirmDialog 
         isOpen={openModal}

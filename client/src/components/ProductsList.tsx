@@ -1,16 +1,10 @@
 import ProductItem from './ProductItem'
 import ProductModal from './ProductModal'
 import { useEffect, useState } from 'react'
-import { Card } from 'flowbite-react'
+import { Card } from 'antd'
 import Search from './Search'
 import { useGetProductsQuery } from '../store/services/cashierApi'
 import { Product } from '../types/Product'
-
-const cardTheme = {
-  root: {
-    children: 'flex flex-col h-full py-4 px-2 md:p-6'
-  }
-}
 
 export default function ProductsList() {
   const { data: products } = useGetProductsQuery({})
@@ -26,14 +20,14 @@ export default function ProductsList() {
   }
 
   return (
-    <Card className="w-full max-w-2xl max-h-[100%]" theme={cardTheme}>
-      <div className="flex items-center justify-between pb-4 px-4">
+    <Card className="w-full max-w-2xl max-h-[100%]">
+      <div className="flex items-center justify-between pb-4">
         <div className="w-full mr-6">   
           <Search onEnter={(value) => searchByName(value)}/>
         </div>
         <ProductModal type="create" />
       </div>
-      <ul role="list" className="overflow-y-auto divide-y divide-gray-200 dark:divide-gray-700 px-6">
+      <ul role="list" className="overflow-y-auto divide-y divide-gray-200 dark:divide-gray-700">
         {filteredProducts?.map((product: Product) => {
           return (
             <li key={product._id} className="py-3 sm:py-4">

@@ -1,4 +1,4 @@
-import { Card, Button } from 'flowbite-react'
+import { Card, Button } from 'antd'
 import { useState, useEffect } from 'react'
 import { CashierProduct } from '../types/Product'
 import { useCreateCheckMutation } from '../store/services/cashierApi'
@@ -10,11 +10,6 @@ type CheckoutListProps = {
   onCheckout: () => void
 }
 
-const cardTheme = {
-  root: {
-    children: 'flex flex-col py-4'
-  }
-}
 
 export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
   const activeItems = items?.filter((item: CashierProduct) => item.isActive)
@@ -43,11 +38,11 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
 
   return (
     <>
-      <Card className={`flex-col w-[90vw] max-w-[400px] max-h-[90vh] fixed m-auto lg:m-0 top-[50%] left-[50%] lg:top-0 lg:left-0 translate-y-[-50%] translate-x-[-50%] lg:translate-x-[0%] lg:translate-y-[0%] lg:relative z-20 lg:z-0 ${isModal ? modalStyleOpen : 'flex'}`} theme={cardTheme}>
-        <div onClick={() => setIsModalOpen(false)} className="lg:hidden px-4 ml-auto cursor-pointer">
+      <Card className={`flex-col w-[90vw] max-w-[400px] max-h-[90vh] fixed m-auto lg:m-0 top-[50%] left-[50%] lg:top-0 lg:left-0 translate-y-[-50%] translate-x-[-50%] lg:translate-x-[0%] lg:translate-y-[0%] lg:relative z-20 lg:z-0 ${isModal ? modalStyleOpen : 'flex'}`}>
+        <div onClick={() => setIsModalOpen(false)} className="lg:hidden ml-auto cursor-pointer">
           <HiX className="text-2xl text-white" />
         </div>
-        <ul role="list" className="overflow-y-auto divide-y divide-gray-200 dark:divide-gray-700 px-6 ">
+        <ul role="list" className="overflow-y-auto divide-y divide-gray-200 dark:divide-gray-700 ">
           {activeItems?.map((product: CashierProduct) => {
             return (
               <li key={product._id}>
@@ -57,14 +52,19 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
           })}
         </ul>
         <div>
-          <div className="flex items-center justify-between px-6 py-4">
+          <div className="flex items-center justify-between py-4">
             <span className="text-xl font-semibold text-gray-900 dark:text-white">Загальна сума</span>
             <span className="text-xl font-semibold text-gray-900 dark:text-white">{activeItems?.reduce((acc, item) => acc + (item.price * item.quantity), 0)}₴</span>
           </div>
         </div>
-        <div className="px-6">
-          <Button fullSized onClick={handleCheckout}>Підтвердити</Button>
-        </div>
+        <Button 
+          type="primary" 
+          block 
+          onClick={handleCheckout}
+          size="large"
+        >
+          Підтвердити
+        </Button>
         {/* {notifyState && (
           <Toast className="fixed bottom-8 right-6">
             <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
@@ -78,7 +78,7 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
       {isModal && (
         <div onClick={() => setIsModalOpen(false)} className={`fixed top-0 right-0 w-full h-full z-10 bg-black opacity-40 ${isModalOpen ? 'block' : 'hidden'}`}></div>
       )}
-      <Button onClick={() => setIsModalOpen(true)} className="fixed bottom-6 right-6 h-14 lg:hidden">
+      <Button type="primary" onClick={() => setIsModalOpen(true)} className="fixed bottom-6 right-6 h-14 lg:hidden">
         <HiReceiptTax className="text-2xl" />
       </Button>
     </>
