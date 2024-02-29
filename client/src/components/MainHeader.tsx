@@ -8,23 +8,23 @@ const items = [
   {
     key: 1,
     label: (
-      <Link to="/" className="cursor-pointer text-neutral-900 dark:text-white text-base">Огляд</Link>
+      <Link to="/" className="cursor-pointer text-neutral-900 dark:text-white text-lg">Огляд</Link>
     ),
-    icon: (<HiMiniChartPie size='20px' />)
+    icon: (<HiMiniChartPie size='22px' />)
   },
   {
     key: 2,
     label: (
-      <Link to="/products" className="cursor-pointer dark:text-white text-base">Товари</Link>
+      <Link to="/products" className="cursor-pointer dark:text-white text-lg">Товари</Link>
     ),
-    icon: (<HiMiniBuildingStorefront size='20px' />)
+    icon: (<HiMiniBuildingStorefront size='22px' />)
   },
   {
     key: 3,
     label: (
-      <Link to="/cashier" className="cursor-pointer dark:text-white text-base">Каса</Link>
+      <Link to="/cashier" className="cursor-pointer dark:text-white text-lg">Каса</Link>
     ),
-    icon: (<HiCalculator size='20px' />)
+    icon: (<HiCalculator size='22px' />)
   }
 ]
 
@@ -58,6 +58,10 @@ export default function MainHeader() {
             menu={{ items }} 
             placement='bottomRight' 
             trigger={['click']}
+            getPopupContainer={() => document.querySelector('header')}
+            overlayStyle={{
+              width: 'calc(100% - 2rem)'
+            }}
           >
             <Button
               type='default'
