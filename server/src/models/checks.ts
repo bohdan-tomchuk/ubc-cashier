@@ -15,7 +15,6 @@ const CheckSchema = new mongoose.Schema({
 export const CheckModel = mongoose.model('Check', CheckSchema)
 
 export const getChecks = ({ page, limit, date }: { page: number, limit: number, date: string[] }) => {
-  console.log(date)
   return CheckModel
     .find({
       'date': {

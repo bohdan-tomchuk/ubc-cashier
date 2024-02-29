@@ -1,5 +1,5 @@
 import { useGetChecksQuery } from '../store/services/cashierApi'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Check, CheckItem } from '../types/Check'
 import { Table, type TableProps, Tag, Space, DatePicker } from 'antd'
 import locale from 'antd/es/date-picker/locale/uk_UA'
@@ -53,26 +53,38 @@ export default function CheckTable() {
     setDate(date)
   }
 
-  const { data: checks, isLoading } = useGetChecksQuery({ page, itemsPerPage, date })
+  const { data: checks, isLoading, isFetching } = useGetChecksQuery({ page, itemsPerPage, date })
+
+  useEffect(() => {
+    console.log('scroll')
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [page])
 
   return (
-    <Space direction='vertical'>
+    <Space 
+      direction='vertical'
+    >
       <RangePicker 
         size='large' 
         locale={locale}
         onChange={(_, values) => handleDateChange(values)}
+        inputReadOnly={true}
       />
       <Table
         columns={columns}
         dataSource={checks?.results}
         size='middle'
         bordered
-        loading={isLoading}
+        loading={isLoading && isFetching}
         pagination={{
           current: page,
           pageSize: itemsPerPage,
           total: checks?.count,
-          onChange: setPage,
+          onChange: (page) => setPage(page),
           size: 'default',
           onShowSizeChange: (_, size) => setItemsPerPage(size)
         }}
