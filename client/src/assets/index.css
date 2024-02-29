@@ -8,6 +8,9 @@
   }
 }
 
+.ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item {
+  padding: 10px 16px;
+}
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 *::-webkit-scrollbar {

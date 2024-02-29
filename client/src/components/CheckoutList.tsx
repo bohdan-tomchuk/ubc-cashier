@@ -39,8 +39,9 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
   return (
     <>
       <Card className={`flex-col w-[90vw] max-w-[400px] max-h-[90vh] fixed m-auto lg:m-0 top-[50%] left-[50%] lg:top-0 lg:left-0 translate-y-[-50%] translate-x-[-50%] lg:translate-x-[0%] lg:translate-y-[0%] lg:relative z-20 lg:z-0 ${isModal ? modalStyleOpen : 'flex'}`}>
-        <div onClick={() => setIsModalOpen(false)} className="lg:hidden ml-auto cursor-pointer">
-          <HiX className="text-2xl text-black dakr:text-white" />
+        <div onClick={() => setIsModalOpen(false)} className="lg:hidden cursor-pointer flex justify-between mb-4">
+          <h3 className='text-xl font-semibold'>Розрахунок</h3>
+          <HiX className="text-2xl text-black dark:text-white" />
         </div>
         <ul role="list" className="overflow-y-auto divide-y divide-gray-200 dark:divide-gray-700 ">
           {activeItems?.map((product: CashierProduct) => {
