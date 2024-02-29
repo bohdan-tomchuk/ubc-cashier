@@ -58,7 +58,7 @@ export default function MainHeader() {
             menu={{ items }} 
             placement='bottomRight' 
             trigger={['click']}
-            getPopupContainer={() => document.querySelector('header')}
+            getPopupContainer={() => document.querySelector('header') as HTMLElement}
             overlayStyle={{
               width: 'calc(100% - 2rem)'
             }}
