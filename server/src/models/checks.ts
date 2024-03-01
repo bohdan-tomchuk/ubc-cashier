@@ -24,7 +24,7 @@ export const getChecks = ({ page, limit, date }: { page: number, limit: number, 
     })
     .limit(limit)
     .skip((page - 1) * limit)
-    .sort({ data: -1 })
+    .sort({ date: -1 })
 }
 export const createCheck = (values: Record<string, any>) => new CheckModel(values).save(values).then((check: any) => check.toObject())
 export const deleteCheckById = (id: string) => CheckModel.findByIdAndDelete(id)
