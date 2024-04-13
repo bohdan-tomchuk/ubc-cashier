@@ -47,22 +47,29 @@ const columns: TableProps<Check>['columns'] = [
 export default function CheckTable() {
   const [page, setPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(20)
-  const [date, setDate] = useState<string[]>(['2024-01-01', '3024-01-01'])
+  const [date, setDate] = useState<string[]>(['2024-01-01T00:00:00.000Z', '3024-01-01T23:59:59.999Z'])
 
   const handleDateChange = (date: string[]) => {
-    setDate(date)
+    // set date with time where first is 00:00:00 and last is 23:59:59
+    setDate([
+      date[0] + 'T00:00:00.000Z',
+      date[1] + 'T23:59:59.999Z'
+    ])
   }
 
   const { data: checks, isLoading, isFetching } = useGetChecksQuery({ page, itemsPerPage, date })
 
   useEffect(() => {
-    console.log('scroll')
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: 'smooth',
     });
   }, [page])
+
+  useEffect(() => {
+    console.log(date)
+  }, [date])
 
   return (
     <Space 
