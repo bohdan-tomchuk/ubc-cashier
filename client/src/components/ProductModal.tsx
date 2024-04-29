@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { FaPlus, FaEdit } from 'react-icons/fa'
 import { useEditProductMutation, useCreateProductMutation } from '../store/services/cashierApi'
 import { Product } from '../types/Product'
+import IconPicker from './IconPicker'
 
 interface ProductModalProps {
   type: 'create' | 'edit',
@@ -73,6 +74,9 @@ export default function ProductModal({ type, product }: ProductModalProps) {
       <Modal show={isModalOpen} size="sm" onClose={onCloseModal} popup dismissible>
         <Modal.Header />
         <Modal.Body>
+          <div className="mb-4">
+            <IconPicker />
+          </div>
           <div className="mb-4">
             <div className="mb-2 block">
               <Label htmlFor="name" value="Назва товару" />
