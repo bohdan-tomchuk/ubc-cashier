@@ -51,7 +51,7 @@ export default memo(function CashierProductItem({ product }: CashierProductItemP
       }}
     >
       <div className={`flex flex-col sm:items-center justify-between ${ !product.isActive ? 'sm:h-full' : 'flex-1' } ${ (!isMobileCard && product.isActive) && 'mb-2' } mr-8 sm:mr-0`}>
-        <p className="text-md mb-4 sm:mb-0 text-gray-500 md:text-lg dark:text-gray-400">{product.name}</p>
+        <p className="text-md mb-4 sm:mb-0 text-gray-500 md:text-lg dark:text-gray-400 md:text-center">{product.name}</p>
         <span className="text-base font-semibold text-gray-900 dark:text-white">{product.price}₴</span>
       </div>
       {product.isActive && (
