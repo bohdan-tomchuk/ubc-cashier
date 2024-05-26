@@ -19,7 +19,21 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
   useEffect(() => {
-    if (window.innerWidth <= 1024) setIsModal(true)
+    function handleResize() {
+      console.log('resize')
+      if (window.innerWidth <= 1024) {
+        setIsModal(true)
+      } else {
+        setIsModal(false)
+      }
+    }
+    
+    window.addEventListener('resize', handleResize)
+    handleResize()
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
   }, [])
 
   const handleCheckout = () => {
@@ -28,8 +42,6 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       products: activeItems?.map(({ isActive, ...rest }) => { return rest } )
     })
-    // setNotifyState(true)
-    // setTimeout(() => setNotifyState(false), 4000)
     onCheckout()
     if (isModal) setIsModalOpen(false)
   }
@@ -66,15 +78,6 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
         >
           Підтвердити
         </Button>
-        {/* {notifyState && (
-          <Toast className="fixed bottom-8 right-6">
-            <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
-              <HiCheck className="h-5 w-5" />
-            </div>
-            <span className="ml-3 text-sm font-normal">Розрахунок успішний</span>
-            <Toast.Toggle onDismiss={() => setNotifyState(false)} />
-          </Toast>
-        )} */}
       </Card>
       {isModal && (
         <div onClick={() => setIsModalOpen(false)} className={`fixed top-0 right-0 w-full h-full z-10 bg-black opacity-40 ${isModalOpen ? 'block' : 'hidden'}`}></div>

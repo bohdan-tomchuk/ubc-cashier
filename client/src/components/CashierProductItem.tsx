@@ -1,5 +1,5 @@
 import { CashierProduct } from '../types/Product'
-import { memo } from 'react'
+import { memo, useEffect, useState } from 'react'
 import Quantity from './Quantity'
 import useProductState from '../hooks/useProductState'
 import { Card } from 'antd'
@@ -22,8 +22,25 @@ const mobileCardBodyStyle = {
 }
 
 export default memo(function CashierProductItem({ product }: CashierProductItemProps) {
-  const isMobileCard = window.matchMedia('(max-width: 640px)').matches
+  const [isMobileCard, setIsMobileCard] = useState<boolean>(false)
   const { handleQuantityChange, handleProductClick } = useProductState(product)
+
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth <= 640) {
+        setIsMobileCard(true)
+      } else {
+        setIsMobileCard(false)
+      }
+    }
+    
+    window.addEventListener('resize', handleResize)
+    handleResize()
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   return (
     <Card 
