@@ -20,7 +20,6 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
 
   useEffect(() => {
     function handleResize() {
-      console.log('resize')
       if (window.innerWidth <= 1024) {
         setIsModal(true)
       } else {
@@ -82,7 +81,7 @@ export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
       {isModal && (
         <div onClick={() => setIsModalOpen(false)} className={`fixed top-0 right-0 w-full h-full z-10 bg-black opacity-40 ${isModalOpen ? 'block' : 'hidden'}`}></div>
       )}
-      <Button type="primary" onClick={() => setIsModalOpen(true)} className="fixed bottom-6 right-6 h-14 lg:hidden">
+      <Button type="primary" onClick={() => setIsModalOpen(true)} className="fixed bottom-6 right-6 h-14 lg:hidden z-50">
         <HiReceiptTax className="text-2xl" />
       </Button>
     </>

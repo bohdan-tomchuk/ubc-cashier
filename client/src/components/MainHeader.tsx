@@ -36,13 +36,12 @@ export default function MainHeader() {
       style={{
         position: 'sticky',
         top: 0,
-        zIndex: 1,
         width: '100%',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
       }}
-      className="px-4 md:px-8 bg-neutral-200 dark:bg-neutral-900"
+      className="px-4 md:px-8 bg-neutral-200 dark:bg-neutral-900 z-50"
     >
       <div className="dark:text-white text-xl font-bold">Кав'ярня УБЦ</div>
       {!isMobileMenu
