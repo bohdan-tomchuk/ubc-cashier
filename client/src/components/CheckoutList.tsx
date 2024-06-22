@@ -10,7 +10,6 @@ type CheckoutListProps = {
   onCheckout: () => void
 }
 
-
 export default function CheckoutList({ items, onCheckout }: CheckoutListProps) {
   const activeItems = items?.filter((item: CashierProduct) => item.isActive)
   const [createCheck] = useCreateCheckMutation()
