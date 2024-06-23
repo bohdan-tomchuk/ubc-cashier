@@ -1,6 +1,6 @@
 import express from 'express'
 
-import { getProducts, createProduct, deleteProductById, updateProductById } from '../models/products'
+import { getProducts, createProduct, deleteProductById, updateProductById, type IProduct } from '../models/products'
 
 export const getAllProducts = async (req: express.Request, res: express.Response) => {
   try {
@@ -21,7 +21,7 @@ export const createNewProduct = async (req: express.Request, res: express.Respon
       return res.sendStatus(400)
     }
 
-    const product: Record<string, any> = await createProduct({ name, price })
+    const product: IProduct = await createProduct({ name, price } as Omit<IProduct, 'position_id'>)
 
     return res.status(200).json(product).end()
   } catch (err) {

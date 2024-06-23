@@ -13,7 +13,7 @@ const app = express()
 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:3000', 'https://ubc-cashier-fe.onrender.com', 'http://192.168.0.103:3000']
+  origin: ['http://localhost:3000', 'https://ubc-cashier-fe.onrender.com', 'http://192.168.1.48:3000']
 }))
 
 app.use(compression())

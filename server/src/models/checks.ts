@@ -1,6 +1,16 @@
 import mongoose from 'mongoose'
 
-const CheckSchema = new mongoose.Schema({
+interface ICheck extends mongoose.Document {
+  date: Date
+  products: {
+    productId: string
+    name: string
+    price: number
+    quantity: number
+  }
+}
+
+const CheckSchema = new mongoose.Schema<ICheck>({
   date: { type: Date, required: true },
   products: [
     {
@@ -12,7 +22,7 @@ const CheckSchema = new mongoose.Schema({
   ]
 })
 
-export const CheckModel = mongoose.model('Check', CheckSchema)
+export const CheckModel = mongoose.model<ICheck>('Check', CheckSchema)
 
 export const getChecks = ({ page, limit, date }: { page: number, limit: number, date: string[] }) => {
   return CheckModel
