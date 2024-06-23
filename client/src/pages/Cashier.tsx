@@ -12,6 +12,7 @@ import {
   useSensor,
   KeyboardSensor,
   PointerSensor,
+  TouchSensor,
   closestCenter
 } from "@dnd-kit/core"
 import {
@@ -52,7 +53,8 @@ export default function Cashier() {
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates
-    })
+    }),
+    useSensor(TouchSensor)
   );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
