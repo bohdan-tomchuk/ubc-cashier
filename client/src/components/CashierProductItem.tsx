@@ -75,7 +75,7 @@ export default memo(function CashierProductItem({ product, isDnDMode }: Props) {
   return (
     <Card 
       // onClick={handleProductClick} 
-      className={`w-full cursor-pointer ${ product.isActive ? 'outline outline-2 outline-blue-600' : '' }`}
+      className={`w-full cursor-pointer ${ product.isActive ? 'outline outline-2 outline-blue-600' : '' } ${ isDnDMode ? 'touch-none' : ''}`}
       styles={{
         body: isMobileCard ? mobileCardBodyStyle : defaultCardBodyStyle,
       }}
