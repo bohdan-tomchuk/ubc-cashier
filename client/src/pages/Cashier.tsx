@@ -12,7 +12,6 @@ import {
   useSensor,
   KeyboardSensor,
   PointerSensor,
-  TouchSensor,
   closestCenter
 } from "@dnd-kit/core"
 import {
@@ -53,8 +52,7 @@ export default function Cashier() {
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates
-    }),
-    useSensor(TouchSensor)
+    })
   );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -126,7 +124,7 @@ export default function Cashier() {
                 ))}
               </SortableContext>
               <DragOverlay>
-                {draggingId ? <CashierProductItem product={getProductById(draggingId)} isDnDMode={true} /> : null}
+                {draggingId ? <CashierProductItem product={getProductById(draggingId)} isDnDMode={false} /> : null}
               </DragOverlay>
             </CashierProductList>
           </DndContext>
