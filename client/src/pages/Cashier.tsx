@@ -29,13 +29,22 @@ export default function Cashier() {
   const [draggingId, setDraggingId] = useState<string | null>(null)
   const [isDragging, setIsDragging] = useState(false)
 
-  const sortProductState = () => {
-    const result: CashierProduct[] = []
+  const sortProductState = (): CashierProduct[] => {
+    let result: CashierProduct[] = []
     const ids = JSON.parse(localStorage.getItem('productsOrder')!)
+    const newProducts: CashierProduct[] = []
 
     products.forEach((product) => {
+      // TODO: check for performance and refactor i needed
+      if (!ids.includes(product._id)) {
+        newProducts.push(product)
+        return
+      }
       result[ids.indexOf(product._id)] = product
     })
+
+    result = result.filter(Boolean)
+    result.push(...newProducts)
 
     return result
   }
@@ -85,6 +94,7 @@ export default function Cashier() {
   }
 
   const getProductsIDs = () => {
+    console.log(productsState)
     return productsState.map(product => product._id)
   }
 
