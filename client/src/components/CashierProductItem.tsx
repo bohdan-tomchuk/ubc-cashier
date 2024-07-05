@@ -12,7 +12,6 @@ type Props = {
 }
 
 const defaultCardBodyStyle = {
-  boxShadow: '0 0 10px rgba(0, 0, 0, 0.6)',
   height: '150px',
   display: 'flex',
   flexDirection: 'column',
